@@ -13,9 +13,9 @@ const ScheduleList = ({ schedules, setSchedules }) => {
   };
 
   return (
-    <div className="mt-10 p-8 max-w-xl mx-auto bg-gradient-to-br from-purple-500 to-purple-700 rounded-2xl shadow-2xl border border-purple-300 space-y-6 text-white">
+    <div className="mt-10 p-8 max-w-xl mx-auto bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl shadow-2xl border space-y-6 text-white">
       <h3 className="text-3xl font-bold text-center text-white drop-shadow-md flex items-center justify-center gap-2">
-        📅 <span className="text-yellow-400">Jadwal Lagu</span>
+        📅 <span className="text-white">Jadwal Lagu</span>
       </h3>
 
       {schedules.length === 0 ? (
@@ -32,9 +32,9 @@ const ScheduleList = ({ schedules, setSchedules }) => {
               <p className="font-semibold text-lg text-purple-800">
                 🎵 {schedule.file}
               </p>
-              <p className="text-purple-700 flex items-center space-x-2">
-                <span className="text-purple-600">⏰ {schedule.time}</span>
-                <span className="text-green-600">
+              <p className="flex items-center space-x-2">
+                <span className="text-gray-700">⏰ {schedule.time}</span>
+                <span className="text-gray-700">
                   📅 {schedule.date} ({schedule.day})
                 </span>
               </p>

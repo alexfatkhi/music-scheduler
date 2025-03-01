@@ -62,7 +62,7 @@ const Home = () => {
   }, [schedules]);
 
   return (
-    <div className="p-4">
+    <div className="p-4 bg-gradient-to-br from-blue-300 to-green-300">
       <UploadForm setSchedules={setSchedules} />
       <ScheduleList schedules={schedules} setSchedules={setSchedules} />
     </div>
