@@ -1,43 +1,36 @@
 import { app, BrowserWindow } from "electron";
-import path from "node:path";
+import path from "path";
 import { fileURLToPath } from "url";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-let mainWindow;
-
-app.whenReady().then(() => {
-  mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+function createWindow() {
+  const win = new BrowserWindow({
+    width: 1000,
+    height: 700,
     webPreferences: {
-      preload: path.join(__dirname, "preload.js"),
-      nodeIntegration: false,
-      contextIsolation: true,
+      preload: path.join(__dirname, "preload.cjs"),
+      contextIsolation: true, // 🔒 keamanan tambahan
+      nodeIntegration: false, // 🔒 disable nodeIntegration untuk security
     },
   });
 
-  const VITE_DEV_SERVER_URL = "http://localhost:5173";
-  mainWindow.loadURL(VITE_DEV_SERVER_URL); // <-- FIXED: Pakai Vite
+  if (!app.isPackaged) {
+    // Development mode
+    win.loadURL("http://localhost:5173");
+    win.webContents.openDevTools();
+  } else {
+    // Production mode
+    win.loadFile(path.join(__dirname, "../dist/index.html"));
+  }
+}
 
-  app.on("activate", () => {
-    if (BrowserWindow.getAllWindows().length === 0) {
-      mainWindow = new BrowserWindow({
-        width: 800,
-        height: 600,
-        webPreferences: {
-          preload: path.join(__dirname, "preload.js"),
-          nodeIntegration: false,
-          contextIsolation: true,
-        },
-      });
-
-      mainWindow.loadURL(VITE_DEV_SERVER_URL);
-    }
-  });
-});
+app.whenReady().then(createWindow);
 
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") app.quit();
+});
+
+app.on("activate", () => {
+  if (BrowserWindow.getAllWindows().length === 0) createWindow();
 });
